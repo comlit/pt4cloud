@@ -30,7 +30,7 @@ def benchmark_function():
 # For short-term analysis (< 7 days)
 samples, distribution = pt4cloud_lite(
     benchmark_function,
-    stability_threshold=0.01,    # KL divergence threshold
+    stability_probability=0.9,    # 90% confidence level
     interval_duration=3600,      # 1 hour intervals
     sampling_portion=0.5         # Sample 50% of the time
 )
@@ -38,7 +38,7 @@ samples, distribution = pt4cloud_lite(
 # For long-term analysis (>= 7 days)
 samples, distribution = pt4cloud(
     benchmark_function,
-    stability_threshold=0.01,           # KL divergence threshold
+    stability_probability=0.9,           # 90% confidence level
     interval_duration=7*24*3600,        # 7 day intervals
     sampling_portion=0.5                # Sample 50% of the time
 )
@@ -69,7 +69,7 @@ from pt4cloud import pt4cloud
 
 samples, distribution = pt4cloud(
     benchmark_function=my_benchmark,
-    stability_threshold=0.01,    # Maximum KL divergence to consider stable
+    stability_probability=0.9,    # 90% confidence level
     max_intervals=10,            # Maximum number of iterations
     interval_duration=604800,    # Duration of each interval in seconds (7 days)
     sampling_portion=0.5         # Sample 50% of the time
@@ -85,7 +85,7 @@ from pt4cloud import pt4cloud_lite
 
 samples, distribution = pt4cloud_lite(
     benchmark_function=my_benchmark,
-    stability_threshold=0.01,    # Maximum KL divergence to consider stable
+    stability_probability=0.9,    # 90% confidence level
     max_intervals=10,            # Maximum number of intervals to try
     interval_duration=86400,     # Duration of each interval in seconds (24 hours)
     interval_increase=0.2,       # Factor to increase interval duration by after each failed attempt
@@ -108,16 +108,6 @@ percentile_95 = np.percentile(samples, 95)
 x_points = np.linspace(min(samples), max(samples), 100)
 density = distribution(x_points)
 ```
-
-## Parameters
-
-- `benchmark_function`: A callable that returns a single performance measurement
-- `stability_threshold`: Maximum KL divergence between distributions to consider stable
-- `max_intervals`: Maximum number of intervals to try before giving up
-- `interval_duration`: Duration of each test interval in seconds
-- `sampling_portion`: Fraction of time to spend collecting samples (0.0 to 1.0)
-- `validate`: (pt4cloud_lite only) Whether to perform additional validation
-- `interval_increase`: (pt4cloud_lite only) Factor to increase interval duration by after each failed attempt.
 
 ## Requirements
 
