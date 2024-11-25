@@ -117,7 +117,7 @@ def collect_data_for_interval(benchmark_function, interval_duration, sampling_po
     return data
 
 
-def validate_stability(test_duration, benchmark_function, sampling_portion, stability_threshold, existing_data):
+def validate_stability(test_duration, benchmark_function, sampling_portion, stability_probability, existing_data):
     """
     Validate the stability of a performance distribution by comparing it with new data.
     
@@ -125,7 +125,7 @@ def validate_stability(test_duration, benchmark_function, sampling_portion, stab
         test_duration (float): Duration of the test interval in seconds
         benchmark_function (callable): Function that returns a single benchmark measurement
         sampling_portion (float): Fraction of each hour to spend collecting samples (0.0 to 1.0)
-        stability_threshold (float): Maximum allowed KL divergence to consider distribution stable
+        stability_probability (float): Probability to determine stability
         existing_kde (scipy.stats.gaussian_kde): Existing kernel density estimate to compare against
         
     Returns:
@@ -140,7 +140,7 @@ def validate_stability(test_duration, benchmark_function, sampling_portion, stab
     data_combined = np.append(data_1, data_2)
 
     similarity_prob = dist_divergence(existing_data, data_combined)
-    validate = similarity_prob >= stability_threshold
+    validate = similarity_prob >= stability_probability
 
     if(validate):
         print("Validation successful with similarity probability: ", "{0:.2%}".format(similarity_prob))
