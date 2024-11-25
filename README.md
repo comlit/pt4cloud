@@ -34,14 +34,6 @@ samples, distribution = pt4cloud_lite(
     interval_duration=3600,      # 1 hour intervals
     sampling_portion=0.5         # Sample 50% of the time
 )
-
-# For long-term analysis (>= 7 days)
-samples, distribution = pt4cloud(
-    benchmark_function,
-    stability_probability=0.9,           # 90% confidence level
-    interval_duration=7*24*3600,        # 7 day intervals
-    sampling_portion=0.5                # Sample 50% of the time
-)
 ```
 
 ## Methodology
@@ -60,22 +52,6 @@ The methodology addresses key challenges in cloud performance testing:
 
 ## Detailed Usage
 
-### PT4Cloud (Long-term Analysis)
-
-Implementation of the original methodology for longer-term stability analysis:
-
-```python
-from pt4cloud import pt4cloud
-
-samples, distribution = pt4cloud(
-    benchmark_function=my_benchmark,
-    stability_probability=0.9,    # 90% confidence level
-    max_intervals=10,            # Maximum number of iterations
-    interval_duration=604800,    # Duration of each interval in seconds (7 days)
-    sampling_portion=0.5         # Sample 50% of the time
-)
-```
-
 ### PT4Cloud Lite (Short-term Analysis)
 
 Modified version for shorter testing intervals:
@@ -83,7 +59,7 @@ Modified version for shorter testing intervals:
 ```python
 from pt4cloud import pt4cloud_lite
 
-samples, distribution = pt4cloud_lite(
+samples = pt4cloud_lite(
     benchmark_function=my_benchmark,
     stability_probability=0.9,    # 90% confidence level
     max_intervals=10,            # Maximum number of intervals to try
