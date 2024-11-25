@@ -5,7 +5,7 @@ PT4Cloud (Performance Testing for Cloud) is a Python implementation of the perfo
 ## Overview
 
 This package implements the PT4Cloud methodology for determining when cloud application performance characteristics have stabilized. It offers two variants:
-- `pt4cloud`: Implements the full methodology as described in the paper
+- `pt4cloud`: Implements the full methodology as described in the paper (currently broken)
 - `pt4cloud_lite`: A modified version for shorter testing intervals
 
 The methodology uses statistical techniques to determine when a cloud application's performance distribution has stabilized, accounting for the inherent variability in cloud environments.
