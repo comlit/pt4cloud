@@ -8,7 +8,7 @@ def mock_benchmark_function():
     Mock benchmark function that returns normally distributed values with a small delay.
     """
     time.sleep(2)  # Simulate a delay of 0.1 seconds
-    return np.random.normal(0, 1)
+    return np.random.normal(0, 1.2)
 
 def test_pt4cloud_lite():
     """
@@ -18,7 +18,7 @@ def test_pt4cloud_lite():
         benchmark_function=mock_benchmark_function,
         stability_probability=0.9,
         max_intervals=5,
-        interval_duration=60,  # Shorter interval for testing
+        interval_duration=20,  # Shorter interval for testing
         interval_increase=0.5,
         sampling_portion=0.5,
         validate=True

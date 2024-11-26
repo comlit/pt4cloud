@@ -23,8 +23,8 @@ def dist_divergence(data_1, data_2):
         A similarity score between 0 and 1, where a higher score indicates more similar distributions.
     """
 
-    dataFirst = data_1
-    dataSecond = data_2
+    dataFirst = np.array(data_1)
+    dataSecond = np.array(data_2)
     intervalCount = 1000
     #Calculate the kernel-density estimation using Gaussian kernels
     kde1 = gaussian_kde(dataFirst)
@@ -168,7 +168,7 @@ def collect_two_intervals(benchmark_function, interval_duration, sampling_portio
         )
     """
 
-    print("Collecting data for two interval...")
+    print("Collecting data for two intervals...")
     data_1 = collect_data_for_interval(benchmark_function, interval_duration, sampling_portion)
     data_2 = collect_data_for_interval(benchmark_function, interval_duration, sampling_portion)
     return data_1, data_2
@@ -210,9 +210,9 @@ def pt4cloud_lite(benchmark_function, stability_probability=0.9, max_intervals=1
     data = []
 
     for i in range(0, max_intervals-1):
-        print("Current interval length is :", interval_duration/3600, "hour(s)")
         # Increase the duration of the interval for each failed iteration
         test_duration = interval_duration + interval_duration * interval_increase * i
+        print("Current interval length is :", test_duration/3600, "hour(s)")
 
         # Collect data for two intervals
         data_1, data_2 = collect_two_intervals(benchmark_function, test_duration, sampling_portion)
@@ -224,7 +224,7 @@ def pt4cloud_lite(benchmark_function, stability_probability=0.9, max_intervals=1
 
         if similarity_prob >= stability_probability:
             if(validate):
-                print("Performance distribution is stable with interval length : ", interval_duration/3600, "hour(s)")
+                print("Performance distribution is stable with interval length : ", test_duration/3600, "hour(s)")
                 # validate the stability of the distribution with more intervals
                 print("Validating stability...")
                 is_stable, data_3 = validate_stability(test_duration, benchmark_function, sampling_portion, stability_probability, np.append(data_1, data_2))
@@ -232,11 +232,11 @@ def pt4cloud_lite(benchmark_function, stability_probability=0.9, max_intervals=1
                     data = data_3
                     break
             else:
-                print("Performance distribution is stable with interval length : ", interval_duration/3600, "hour(s)")
+                print("Performance distribution is stable with interval length : ", test_duration/3600, "hour(s)")
                 data = np.append(data_1, data_2)
                 break
         else:
-            print("Performance distribution is not stable with interval length : ", interval_duration/3600, "hour(s)")
-            print("Increasing interval length...")
+            print("Performance distribution is not stable with interval length : ", test_duration/3600, "hour(s)")
+        print("Increasing interval length and retrying...")
 
     return data
