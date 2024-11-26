@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pt4cloud"
-version = "0.3.0"
+version = "0.3.1"
 description = "Python implementation of PT4Cloud as descibed by He et al. https://doi.org/10.1145/3338906.3338912"
 authors = ["Fabian <1803fabian@gmail.com>"]
 readme = "README.md"
